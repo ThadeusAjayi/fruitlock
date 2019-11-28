@@ -19,9 +19,10 @@ export default class Onboarding extends Component {
     }
 
     _keylockSetup = async () => {
-        const { selectedFocusPosition } = this.state;
+        const { selectedFocusPosition, colorSetUp } = this.state;
         if (!selectedFocusPosition) return Alert.alert("Hello There", "Please select position of focus fruit", [{ text: 'Dismiss', style: 'cancel' }])
         await AsyncStorage.setItem("FOCUS_POSITION", selectedFocusPosition);
+        await AsyncStorage.setItem("COLOR_SETUP", colorSetUp ? '1' : '0');
         this.props.navigation.navigate("KeylockSetup");
     }
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, FlatList, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { baseFont, colorPrimary } from '../assets/fruits';
-import { mapKeysToFruitTrio, matchNumberToFruit } from '../utils/keyboardFruitMap';
+import { mapKeysToFruitTrio, matchNumberToFruit, matchNumberToColor } from '../utils/keyboardFruitMap';
 
 /**
  * @props getButtonValue Function returns value of pressed button
@@ -154,8 +154,38 @@ export default class PinKeyPad extends Component {
 											/>
 										))}
 								</View>
+							)}
+						</View>
+						{/* show inputed fields when color */}
+						<View style={{
+							position: "absolute",
+							width: inputWidth
+						}}>
+							{this.props.showInputedValue && !this.props.useFruit && (
+								<View
+									style={{
+										flexDirection: "row",
+										alignSelf: 'flex-start'
+									}}
+								>
+									{this.state.pin.length > 0 &&
+										this.state.pin.map((item, i) => (
+											<View
+												key={i + 20}
+												style={{
+													height: RFValue(10),
+													width: RFValue(10),
+													borderRadius: RFValue(5),
+													backgroundColor: matchNumberToColor(item),
+													// this.props.activePinInputColor || "#ffffff",
+													marginHorizontal: RFValue(10)
+												}}
+											/>
+										))}
+								</View>
 							)}</View>
-						{this.props.showInputedValue && (
+						{/* Show inputed fields when is fruit */}
+						{this.props.showInputedValue && this.props.useFruit && (
 							<View
 								style={{
 									flexDirection: "row",

@@ -11,12 +11,15 @@ export default class keylockSetup extends Component {
         selectedFocusPosition: "",
         isPinSet: false,
         resetPin: false,
-        showFruit: false
+        showInput: false
     }
 
     async componentDidMount() {
         let selectedFocusPosition = await AsyncStorage.getItem("FOCUS_POSITION");
-        this.setState({ selectedFocusPosition })
+        let isColorSetUp = await AsyncStorage.getItem('COLOR_SETUP');
+        let setUpWithFruit = await AsyncStorage.getItem("SETUP_WITH_FRUIT");
+        let useFruit = setUpWithFruit == "1" ? true : false;
+        this.setState({ selectedFocusPosition, isColorSetUp, useFruit });
     }
 
     getPinKeyPadValue = (val) => {
@@ -48,7 +51,7 @@ export default class keylockSetup extends Component {
     }
 
     render() {
-        const { selectedFocusPosition, resetPin, showFruit } = this.state;
+        const { selectedFocusPosition, resetPin, showInput, isColorSetUp, useFruit } = this.state;
         return (
             <SafeAreaView style={{ justifyContent: 'center', alignItems: 'center' }}>
                 <View style={{
@@ -65,10 +68,16 @@ export default class keylockSetup extends Component {
                     height: "90%",
                     width: '95%'
                 }}>
-                    <TouchableOpacity onPress={() => this.setState((prevState) => ({ showFruit: !prevState.showFruit }))}
-                        style={{ alignItems: 'flex-end', padding: RFValue(8), margin: RFValue(8), backgroundColor: colorPrimaryAccent, alignSelf: "flex-end", borderRadius: 8 }}>
-                        <Text style={{ fontFamily: baseFont, fontSize: RFValue(8) }}>TOGGLE FRUITS</Text>
-                    </TouchableOpacity>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <TouchableOpacity onPress={() => this.setState((prevState) => ({ showInput: !prevState.showInput }))}
+                            style={{ alignItems: 'flex-end', padding: RFValue(8), margin: RFValue(8), backgroundColor: colorPrimaryAccent, alignSelf: "flex-end", borderRadius: 8 }}>
+                            <Text style={{ fontFamily: baseFont, fontSize: RFValue(8) }}>SHOW INPUT</Text>
+                        </TouchableOpacity>
+                        {isColorSetUp == "1" && <TouchableOpacity onPress={() => this.setState((prevState) => ({ useFruit: !prevState.useFruit }))}
+                            style={{ alignItems: 'flex-end', padding: RFValue(8), margin: RFValue(8), backgroundColor: colorPrimaryAccent, alignSelf: "flex-end", borderRadius: 8 }}>
+                            <Text style={{ fontFamily: baseFont, fontSize: RFValue(8) }}>USING {useFruit ? "FRUITS" : "COLOR"}</Text>
+                        </TouchableOpacity>}
+                    </View>
 
                     {selectedFocusPosition ? <Pinkeypad
                         subTitle={"UNLOCK DEVICE"}
@@ -76,7 +85,8 @@ export default class keylockSetup extends Component {
                         getPinKeyPadValue={this.getPinKeyPadValue}
                         focusPosition={selectedFocusPosition}
                         showDot={false}
-                        showInputedValue={showFruit}
+                        showInputedValue={showInput}
+                        useFruit={useFruit}
                         resetPin={resetPin}
                         keyBackColor={"#f4f4f4"}
                         activePinInputColor={colorPrimary}

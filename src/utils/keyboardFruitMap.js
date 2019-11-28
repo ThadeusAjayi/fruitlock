@@ -35,7 +35,7 @@ const fruitArray = [
 ]
 
 const keys = [
-    { buttonValue: 1, fruit: apple, color: "white" },
+    { buttonValue: 1, fruit: apple, color: "#b2ff59" },
     { buttonValue: 2, fruit: corn, color: "yellow" },
     { buttonValue: 3, fruit: garlic, color: "red" },
     { buttonValue: 4, fruit: grapes, color: "blue" },
@@ -45,7 +45,7 @@ const keys = [
     { buttonValue: 8, fruit: peanuts, color: "black" },
     { buttonValue: 9, fruit: pear, color: "brown" },
     { buttonValue: ".", fruit: null, color: "purple95" },
-    { buttonValue: 0, fruit: pineapple, color: "silver" },
+    { buttonValue: 0, fruit: pineapple, color: "#607d8b" },
     { buttonValue: "DELETE", fruit: null, color: "purple95" },
 ];
 
@@ -133,10 +133,13 @@ const mapKeysToFruitTrio = (focusPosition) => randomizeValuesAndKeepDotDelete().
 
 const matchNumberToFruit = (buttonValue) => keys.filter(ky => ky.buttonValue == buttonValue && ky.fruit)[0].fruit;
 
+const matchNumberToColor = (buttonValue) => keys.filter(ky => ky.buttonValue == buttonValue && ky.fruit)[0].color;
+
 export {
     keys,
     fruitTrio,
     mapKeysToFruitTrio,
     FOCUS_POSITION,
-    matchNumberToFruit
+    matchNumberToFruit,
+    matchNumberToColor
 }
